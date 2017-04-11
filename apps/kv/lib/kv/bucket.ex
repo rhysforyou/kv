@@ -14,6 +14,13 @@ defmodule KV.Bucket do
   end
 
   @doc """
+  Get the keys contained by bucket
+  """
+  def keys(bucket) do
+    Agent.get(bucket, &Map.keys(&1))
+  end
+
+  @doc """
   Puts the `value` for the given `key` in the `bucket`.
   """
   def put(bucket, key, value) do
