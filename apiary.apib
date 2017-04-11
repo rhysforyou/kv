@@ -53,11 +53,9 @@ Again, instead of constructing the URLs for the next page. It is **highly** reco
 + Parameters
     + page: `1` (optional, number) ... The page of buckets to return
 
-+ Attributes (Registry)
-
 ### List all registered buckets [GET]
 
-+ Attributes (array[Bucket])
++ Attributes (Registry)
 
 + Response 200 (application/json)
 
@@ -83,6 +81,8 @@ You can create a new bucket using this action. It takes a JSON dictionary contai
 
 - bucket: `shopping` (required, string) - The name of the bucket to create
 
++ Attributes (Bucket)
+
 + Request (application/json)
 
         {
@@ -94,6 +94,7 @@ You can create a new bucket using this action. It takes a JSON dictionary contai
         {
             "bucket": "shopping",
             "url": "/buckets/shopping",
+            "keys": []
         }
 
 
@@ -101,12 +102,12 @@ You can create a new bucket using this action. It takes a JSON dictionary contai
 
 A bucket object has the following attributes.
 
-+ Attributes (Bucket)
-
 + Parameters
   + bucket: `shopping` (required, string) ... ID of the bucket in the form of a URL slug
 
 ### View a bucket [GET]
+
++ Attributes (Bucket)
 
 + Response 200 (application/json)
 
@@ -141,13 +142,13 @@ This action deletes a bucket and all the key / value pairs it contains.
 
 A Key object has the following attributes.
 
-+ Attributes (Key)
-
 + Parameters
   + bucket: `shopping` (required, string) ... ID of the bucket in the form of a URL slug
   + key: `eggs` (required, string) ... a key expressed as a URL slug
 
 ### Get a key [GET]
+
++ Attributes (Key)
 
 + Response 200 (application/json)
 
