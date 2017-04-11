@@ -1,0 +1,177 @@
+FORMAT: 1A
+HOST: http://kvapi.extremely.online/
+
+# Key / Value Store API
+
+This API provides access to a basic key / value registry, where entries are broken up into buckets.
+
+# Data Structures
+
+## Key (object)
+
++ key (string, required) - name of the key
++ url (string, required) - the URL of this key resource
++ value (string, required) - the key's associated value
+
+## Bucket (object)
+
++ bucket (string, required) - the name of the bucket
++ url (string, required) - the URL of this bucket resource
++ created_at (string, required) - when the bucket was created
++ keys (array[Key], required) - the keys this bucket containsrm
+
+## Registry (object)
+
++ buckets (array[Bucket], required) - The buckets the registry contains
+
+# KV Store API Root [/]
+
+This resource does not have any attributes. Instead it offers the initial API affordances in the form of the links in the JSON body.
+
+It is recommend to follow the “url” link values or Link headers to get to resources instead of constructing your own URLs to keep your client decoupled from implementation details.
+
+## Retrieve the Entry Point [GET]
+
++ Response 200 (application/json)
+
+        {
+          "buckets_url": "/buckets"
+        }
+
+# Group Buckets
+
+A bucket represents a container for storing related key / value pairs.
+
+## Buckets Registry [/buckets{?page}]
+
+Again, instead of constructing the URLs for the next page. It is **highly** recommended that you follow the `next` link header in the response.
+
++ Parameters
+    + page: `1` (optional, number) ... The page of buckets to return
+
++ Attributes (Registry)
+
+### List all registered buckets [GET]
+
++ Attributes (array[Bucket])
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Link: </buckets/?page=2>; rel="next"
+
+    + Body
+
+            {
+                "buckets": [
+                    {
+                        "bucket": "shopping",
+                        "created_at": "2014-11-11T08:40:51.620Z",
+                        "url": "/buckets/shopping",
+                        "keys": [
+                            {
+                                "key": "eggs",
+                                "value": "12"
+                                "url": "/buckets/shopping/eggs"
+                            }, {
+                                "key": "milk",
+                                "value": "1",
+                                "url": "/buckets/shopping/milk"
+                            }, {
+                                "key": "apples",,
+                                "value": 6
+                                "url": "/buckets/shopping/apples"
+                            }
+                        ]
+                    }
+                ]
+            }
+
+### Register a new bucket [POST]
+
+You can create a new bucket using this action. It takes a JSON dictionary containing the name of the bucket to create.
+
+- bucket: `shopping` (required, string) - The name of the bucket to create
+
++ Request (application/json)
+
+        {
+          "bucket": "shopping"
+        }
+
++ Response 201 (application/json)
+
+        {
+          "bucket": "shopping",
+          "created_at": "2014-11-11T08:40:51.620Z",
+          "url": "/buckets/shopping",
+          "keys": []
+        }
+
+
+## Bucket Details [/buckets/{bucket}]
+
+A bucket object has the following attributes.
+
++ Attributes (Bucket)
+
++ Parameters
+  + bucket: `shopping` (required, string) ... ID of the bucket in the form of a URL slug
+
+### View a bucket [GET]
+
++ Response 200 (application/json)
+
+        {
+            "bucket": "shopping",
+            "created_at": "2014-11-11T08:40:51.620Z",
+            "url": "/buckets/shopping",
+            "keys": [
+                {
+                    "key": "eggs",
+                    "value": "12"
+                    "url": "/buckets/shopping/eggs"
+                }, {
+                    "key": "milk",
+                    "value": "1",
+                    "url": "/buckets/shopping/milk"
+                }, {
+                    "key": "apples",,
+                    "value": 6
+                    "url": "/buckets/shopping/apples"
+                }
+            ]
+        }
+
+### Delete a bucket [DELETE]
+
+This action deletes a bucket and all the key / value pairs it contains.
+
++ Response 204
+
+### Check if a bucket exists [HEAD]
+
++ Response 204
+
++ Response 404
+
+## Keys [/buckets/{bucket}/{key}]
+
+A Key object has the following attributes.
+
++ Attributes (Key)
+
++ Parameters
+  + bucket: `shopping` (required, string) ... ID of the bucket in the form of a URL slug
+  + key: `eggs` (required, string) ... a key expressed as a URL slug
+
+### Get a key [GET]
+
++ Response 200 (application/json)
+
+        {
+            "key": "eggs",
+            "value": "12"
+            "url": "/buckets/shopping/eggs"
+        }
