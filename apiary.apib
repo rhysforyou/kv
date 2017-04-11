@@ -17,12 +17,11 @@ This API provides access to a basic key / value registry, where entries are brok
 
 + bucket (string, required) - the name of the bucket
 + url (string, required) - the URL of this bucket resource
-+ created_at (string, required) - when the bucket was created
-+ keys (array[Key], required) - the keys this bucket containsrm
 
 ## Registry (object)
 
 + buckets (array[Bucket], required) - The buckets the registry contains
++ next (string) - the URL of the next page, if one existss
 
 # KV Store API Root [/]
 
@@ -67,25 +66,10 @@ Again, instead of constructing the URLs for the next page. It is **highly** reco
                 "buckets": [
                     {
                         "bucket": "shopping",
-                        "created_at": "2014-11-11T08:40:51.620Z",
                         "url": "/buckets/shopping",
-                        "keys": [
-                            {
-                                "key": "eggs",
-                                "value": "12"
-                                "url": "/buckets/shopping/eggs"
-                            }, {
-                                "key": "milk",
-                                "value": "1",
-                                "url": "/buckets/shopping/milk"
-                            }, {
-                                "key": "apples",,
-                                "value": 6
-                                "url": "/buckets/shopping/apples"
-                            }
-                        ]
                     }
-                ]
+                ],
+                "next": "/buckets?page=2"
             }
 
 ### Register a new bucket [POST]
@@ -97,16 +81,14 @@ You can create a new bucket using this action. It takes a JSON dictionary contai
 + Request (application/json)
 
         {
-          "bucket": "shopping"
+            "bucket": "shopping"
         }
 
 + Response 201 (application/json)
 
         {
-          "bucket": "shopping",
-          "created_at": "2014-11-11T08:40:51.620Z",
-          "url": "/buckets/shopping",
-          "keys": []
+            "bucket": "shopping",
+            "url": "/buckets/shopping",
         }
 
 
@@ -125,23 +107,7 @@ A bucket object has the following attributes.
 
         {
             "bucket": "shopping",
-            "created_at": "2014-11-11T08:40:51.620Z",
             "url": "/buckets/shopping",
-            "keys": [
-                {
-                    "key": "eggs",
-                    "value": "12"
-                    "url": "/buckets/shopping/eggs"
-                }, {
-                    "key": "milk",
-                    "value": "1",
-                    "url": "/buckets/shopping/milk"
-                }, {
-                    "key": "apples",,
-                    "value": 6
-                    "url": "/buckets/shopping/apples"
-                }
-            ]
         }
 
 ### Delete a bucket [DELETE]
