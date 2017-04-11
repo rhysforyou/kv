@@ -100,7 +100,10 @@ You can create a new bucket using this action. It takes a JSON dictionary contai
 
 ## Bucket Details [/buckets/{bucket}]
 
-A bucket object has the following attributes.
+A bucket is a container for an arbitraty number of key / value pairs. When
+fetching a bucket resource, the API returns a JSON object containing all the
+bucket's `keys`. Each of these keys has a `key` and a `url` for fetching the
+key / value resource.
 
 + Parameters
   + bucket: `shopping` (required, string) ... ID of the bucket in the form of a URL slug
