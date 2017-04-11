@@ -17,10 +17,15 @@ This API provides access to a basic key / value registry, where entries are brok
 
 + bucket (string, required) - the name of the bucket
 + url (string, required) - the URL of this bucket resource
++ keys (array, required)
+    + key (string) - the name of the keygen
+    + url (string) - the URL of the key resource
 
 ## Registry (object)
 
-+ buckets (array[Bucket], required) - The buckets the registry contains
++ buckets (array required) - The buckets the registry contains
+    + bucket (string) - the name of the bucket
+    + url (string) - the URL of the bucket resource
 + next (string) - the URL of the next page, if one existss
 
 # KV Store API Root [/]
@@ -108,6 +113,16 @@ A bucket object has the following attributes.
         {
             "bucket": "shopping",
             "url": "/buckets/shopping",
+            "keys": [
+              {
+                  "key": "eggs",
+                  "url": "/buckets/shopping/eggs"
+              },
+              {
+                  "key": "milk",
+                  "url": "/buckets/shopping/milk"
+              }
+            ]
         }
 
 ### Delete a bucket [DELETE]
