@@ -18,14 +18,14 @@ This API provides access to a basic key / value registry, where entries are brok
 + bucket (string, required) - the name of the bucket
 + url (string, required) - the URL of this bucket resource
 + keys (array, required)
-    + key (string) - the name of the keygen
-    + url (string) - the URL of the key resource
+    + key (string, required) - the name of the keygen
+    + url (string, required) - the URL of the key resource
 
 ## Registry (object)
 
 + buckets (array, required) - The buckets the registry contains
-    + bucket (string) - the name of the bucket
-    + url (string) - the URL of the bucket resource
+    + bucket (string, required) - the name of the bucket
+    + url (string, required) - the URL of the bucket resource
 + next (string) - the URL of the next page, if one existss
 
 # KV Store API Root [/]
