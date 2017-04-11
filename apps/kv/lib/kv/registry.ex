@@ -23,6 +23,19 @@ defmodule KV.Registry do
   end
 
   @doc """
+  Lists all the keys that exist for `server`.
+  """
+  def list(server) do
+    firstKey = :ets.first(server)
+    list(server, firstKey, [firstKey])
+  end
+  defp list(_server, :"$end_of_table", [:"$end_of_table" | acc]), do: acc
+  defp list(server, currentKey, acc) do
+    nextKey = :ets.next(server, currentKey)
+    list(server, nextKey, [nextKey | acc])
+  end
+
+  @doc """
   Ensures there is a bucket associated with `name` in `server`.
   """
   def create(server, name) do

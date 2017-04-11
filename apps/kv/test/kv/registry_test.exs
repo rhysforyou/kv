@@ -16,6 +16,15 @@ defmodule KV.RegistryTest do
     assert KV.Bucket.get(bucket, "milk") == 1
   end
 
+  test "lists buckets", %{registry: registry} do
+    assert KV.Registry.list(registry)  == []
+
+    KV.Registry.create(registry, "shopping")
+    KV.Registry.create(registry, "games")
+
+    assert KV.Registry.list(registry) == ["games", "shopping"]
+  end
+
   test "removes buckets on exit", %{registry: registry} do
     KV.Registry.create(registry, "shopping")
     {:ok, bucket} = KV.Registry.lookup(registry, "shopping")
